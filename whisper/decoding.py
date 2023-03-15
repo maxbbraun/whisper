@@ -572,7 +572,8 @@ class DecodingTask:
     def _get_initial_tokens(self) -> Tuple[int]:
         tokens = list(self.sot_sequence)
 
-        if prefix := self.options.prefix:
+        prefix = self.options.prefix
+        if prefix:
             prefix_tokens = (
                 self.tokenizer.encode(" " + prefix.strip())
                 if isinstance(prefix, str)
@@ -583,7 +584,8 @@ class DecodingTask:
                 prefix_tokens = prefix_tokens[-max_prefix_len:]
             tokens = tokens + prefix_tokens
 
-        if prompt := self.options.prompt:
+        prompt = self.options.prompt
+        if prompt:
             prompt_tokens = (
                 self.tokenizer.encode(" " + prompt.strip())
                 if isinstance(prompt, str)
@@ -802,7 +804,8 @@ def decode(
     result: Union[DecodingResult, List[DecodingResult]]
         The result(s) of decoding contained in `DecodingResult` dataclass instance(s)
     """
-    if single := mel.ndim == 2:
+    single = mel.ndim == 2
+    if single:
         mel = mel.unsqueeze(0)
 
     if kwargs:

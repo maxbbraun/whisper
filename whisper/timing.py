@@ -23,7 +23,8 @@ def median_filter(x: torch.Tensor, filter_width: int):
         # F.pad requires the padding width to be smaller than the input dimension
         return x
 
-    if (ndim := x.ndim) <= 2:
+    ndim = x.ndim
+    if ndim <= 2:
         # `F.pad` does not support 1D or 2D inputs for reflect padding but supports 3D and 4D
         x = x[None, None, :]
 
@@ -109,7 +110,7 @@ def dtw_cuda(x, BLOCK_SIZE=1024):
     from .triton_ops import dtw_kernel
 
     M, N = x.shape
-    assert M < BLOCK_SIZE, f"M should be smaller than {BLOCK_SIZE=}"
+    assert M < BLOCK_SIZE, f"M should be smaller than {BLOCK_SIZE}"
 
     x_skew = (
         F.pad(x, (0, M + 1), value=np.inf).flatten()[: M * (N + M)].reshape(M, N + M)

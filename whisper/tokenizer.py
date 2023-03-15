@@ -2,7 +2,8 @@ import base64
 import os
 import string
 from dataclasses import dataclass, field
-from functools import cached_property, lru_cache
+from functools import lru_cache
+from cached_property import cached_property
 from typing import Dict, List, Optional, Tuple
 
 import tiktoken
@@ -212,7 +213,8 @@ class Tokenizer:
         if self.language is None:
             raise ValueError("This tokenizer does not have language token configured")
 
-        if token := self.special_tokens.get(f"<|{self.language}|>", None):
+        token = self.special_tokens.get(f"<|{self.language}|>", None)
+        if token:
             return token
 
         raise KeyError(f"Language {self.language} not found in tokenizer.")

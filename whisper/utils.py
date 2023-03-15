@@ -105,7 +105,8 @@ class SubtitlesWriter(ResultWriter):
             segment_end = self.format_timestamp(segment["end"])
             segment_text = segment["text"].strip().replace("-->", "->")
 
-            if word_timings := segment.get("words", None):
+            word_timings = segment.get("words", None)
+            if word_timings:
                 all_words = [timing["word"] for timing in word_timings]
                 all_words[0] = all_words[0].strip()  # remove the leading space, if any
                 last = segment_start
